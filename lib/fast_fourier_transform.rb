@@ -12,14 +12,14 @@ class FastFourierTransform
       _X_even = transform(x_even)
       _X_odd = transform(x_odd)
       _M = _N / 2
-      [].tap do |_X|
-        (0..._M).each do |k|
-          _X += [_X_even[k] + _X_odd[k] * Math::E ** (-2i * Math::PI * k / _N)]
-        end
-        (_M..._N).each do |k|
-          _X += [_X_even[k - M] - _X_odd[k - M] * Math::E ** (-2i * Math::PI * (k - _M) / _N)]
-        end
+      _X = []
+      (0..._M).each do |k|
+        _X += [_X_even[k] + _X_odd[k] * Math::E ** (-2i * Math::PI * k / _N)]
       end
+      (_M..._N).each do |k|
+        _X += [_X_even[k - _M] - _X_odd[k - _M] * Math::E ** (-2i * Math::PI * (k - _M) / _N)]
+      end
+      _X
     end
 
     def inverse_transform(_X)
@@ -32,15 +32,14 @@ class FastFourierTransform
       x_even = inverse_transform(_X_even)
       x_odd = inverse_transform(_X_odd)
       _M = _N / 2
-      Array.new(_N, 0.0).tap do |x|
-        (0..._M).each do |k|
-          x[k] = x_even[k] + x_odd[k] * Math::E ** (2i * Math::PI * k / _N)
-        end
-        (_M..._N).each do |k|
-          x[k] = x_even[k - _M] - x_odd[k - _M] * Math::E ** (2i * Math::PI * (k - _M) / _N)
-        end
-        x.map! { |v| v / 2 }
+      x = Array.new(_N, 0.0)
+      (0..._M).each do |k|
+        x[k] = x_even[k] + x_odd[k] * Math::E ** (2i * Math::PI * k / _N)
       end
+      (_M..._N).each do |k|
+        x[k] = x_even[k - _M] - x_odd[k - _M] * Math::E ** (2i * Math::PI * (k - _M) / _N)
+      end
+      x.map { |v| v / 2 }
     end
   end
 end
