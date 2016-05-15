@@ -4,7 +4,7 @@ class FastFourierTransform
   class << self
     def transform(x)
       _N = x.length
-      if _N % 2 == 0
+      unless _N % 2 == 0
         return DiscreteFourierTransform.transform(x)
       end
       x_even = x.values_at(* x.each_index.select(&:even?))
@@ -24,7 +24,7 @@ class FastFourierTransform
 
     def inverse_transform(_X)
       _N = _X.length
-      if _N % 2 == 0
+      unless _N % 2 == 0
         return DiscreteFourierTransform.inverse_transform(_X)
       end
       _X_even = _X.values_at(* _X.each_index.select(&:even?))
