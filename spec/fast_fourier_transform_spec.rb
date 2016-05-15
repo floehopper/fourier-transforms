@@ -15,7 +15,7 @@ RSpec.describe FastFourierTransform do
     expect(dft_signal.map(&:real).map(&:round)).to eq (dft_signal.map(&:real).map(&:round))
   end
 
-  it 'roundtrips input with even number of values' do
+  it 'roundtrips signal with even number of values' do
     original_signal = [0, 1, 0, 1, 0, 1]
     transformed_signal = FastFourierTransform.transform(original_signal)
     signal = FastFourierTransform.inverse_transform(transformed_signal)
@@ -23,7 +23,7 @@ RSpec.describe FastFourierTransform do
     expect(real_and_rounded_signal).to eq(original_signal)
   end
 
-  it 'roundtrips input with odd number of values' do
+  it 'roundtrips signal with odd number of values' do
     original_signal = [0, 1, 0, 1, 0, 1, 0]
     transformed_signal = FastFourierTransform.transform(original_signal)
     signal = FastFourierTransform.inverse_transform(transformed_signal)
