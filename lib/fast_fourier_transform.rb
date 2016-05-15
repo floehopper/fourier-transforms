@@ -1,3 +1,5 @@
+require 'discrete_fourier_transform'
+
 class FastFourierTransform
   class << self
     def transform(x)
