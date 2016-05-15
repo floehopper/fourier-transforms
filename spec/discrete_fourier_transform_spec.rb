@@ -1,24 +1,22 @@
 require 'discrete_fourier_transform'
 
 RSpec.describe DiscreteFourierTransform do
-  it 'roundtrips signal with even number of values' do
-    original_signal = [0, 1, 0, 1, 0, 1]
-    transformed_signal = DiscreteFourierTransform.transform(original_signal)
-    signal = DiscreteFourierTransform.inverse_transform(transformed_signal)
-    expect(real_and_rounded(signal)).to eq(original_signal)
+  it 'transforms signal' do
+    signal = [0, 1, 0, 1, 0, 1]
+    spectrum = DiscreteFourierTransform.transform(signal)
+    expect([3, 0, 0, -3, 0, 0]).to eq(real_and_rounded(spectrum))
   end
 
-  it 'roundtrips signal with even number of values' do
-    original_signal = [0, 1, 0, 1, 0, 1]
-    transformed_signal = DiscreteFourierTransform.transform(original_signal)
-    signal = DiscreteFourierTransform.inverse_transform(transformed_signal)
-    expect(real_and_rounded(signal)).to eq(original_signal)
+  it 'inverse transforms spectrum' do
+    spectrum = [3, 0, 0, -3, 0, 0]
+    signal = DiscreteFourierTransform.inverse_transform(spectrum)
+    expect([0, 1, 0, 1, 0, 1]).to eq(real_and_rounded(signal))
   end
 
-  it 'roundtrips signal with odd number of values' do
-    original_signal = [0, 1, 0, 1, 0, 1, 0]
-    transformed_signal = DiscreteFourierTransform.transform(original_signal)
-    signal = DiscreteFourierTransform.inverse_transform(transformed_signal)
-    expect(real_and_rounded(signal)).to eq(original_signal)
+  it 'roundtrips signal' do
+    signal = [0, 1, 0, 1, 0, 1]
+    spectrum = DiscreteFourierTransform.transform(signal)
+    roundtripped_signal = DiscreteFourierTransform.inverse_transform(spectrum)
+    expect(real_and_rounded(roundtripped_signal)).to eq(signal)
   end
 end

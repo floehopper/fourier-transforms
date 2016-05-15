@@ -2,30 +2,30 @@ require 'fast_fourier_transform'
 
 RSpec.describe FastFourierTransform do
   it 'gives same transform as DFT' do
-    original_signal = [0, 1, 0, 1, 0, 1]
-    dft_transformed_signal = DiscreteFourierTransform.transform(original_signal)
-    fft_transformed_signal = FastFourierTransform.transform(original_signal)
-    expect(real_and_rounded(fft_transformed_signal)).to eq (real_and_rounded(dft_transformed_signal))
+    signal = [0, 1, 0, 1, 0, 1]
+    dft_spectrum = DiscreteFourierTransform.transform(signal)
+    fft_spectrum = FastFourierTransform.transform(signal)
+    expect(real_and_rounded(fft_spectrum)).to eq (real_and_rounded(dft_spectrum))
   end
 
   it 'gives same inverse transform as DFT' do
-    transformed_signal = [3, 0, 0, -3, 0, 0]
-    dft_signal = DiscreteFourierTransform.inverse_transform(transformed_signal)
-    fft_signal = FastFourierTransform.inverse_transform(transformed_signal)
+    spectrum = [3, 0, 0, -3, 0, 0]
+    dft_signal = DiscreteFourierTransform.inverse_transform(spectrum)
+    fft_signal = FastFourierTransform.inverse_transform(spectrum)
     expect(real_and_rounded(fft_signal)).to eq (real_and_rounded(dft_signal))
   end
 
   it 'roundtrips signal with even number of values' do
-    original_signal = [0, 1, 0, 1, 0, 1]
-    transformed_signal = FastFourierTransform.transform(original_signal)
-    signal = FastFourierTransform.inverse_transform(transformed_signal)
-    expect(real_and_rounded(signal)).to eq(original_signal)
+    signal = [0, 1, 0, 1, 0, 1]
+    spectrum = FastFourierTransform.transform(signal)
+    roundtripped_signal = FastFourierTransform.inverse_transform(spectrum)
+    expect(real_and_rounded(roundtripped_signal)).to eq(signal)
   end
 
   it 'roundtrips signal with odd number of values' do
-    original_signal = [0, 1, 0, 1, 0, 1, 0]
-    transformed_signal = FastFourierTransform.transform(original_signal)
-    signal = FastFourierTransform.inverse_transform(transformed_signal)
-    expect(real_and_rounded(signal)).to eq(original_signal)
+    signal = [0, 1, 0, 1, 0, 1, 0]
+    spectrum = FastFourierTransform.transform(signal)
+    roundtripped_signal = FastFourierTransform.inverse_transform(spectrum)
+    expect(real_and_rounded(roundtripped_signal)).to eq(signal)
   end
 end
